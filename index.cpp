@@ -16,7 +16,6 @@ SoftwareSerial BT(2, 3);
 void setup()
 { // RFID 설정
   Serial.begin(9600);   // 시리얼 통신 시작
-  bluetooth.begin(9600);
   SPI.begin();             // SPI 통신 시작
   rfid.PCD_Init();         // rfid(MFRC522) 초기화
   Serial.println("Approximate your card to the reader...");
@@ -78,9 +77,9 @@ void loop()
     // 아이스 아메리카노 구매 갯수 구함
     lcd.setCursor(0, 0);
     lcd.print("Ice Americano   ");
-    int ice_ame = bluetooth.read();
-    if (bluetooth.available()) {
-        Serial.write(bluetooth.read());
+    int ice_ame = BT.read();
+    if (BT.available()) {
+        Serial.write(BT.read());
     }
     lcd.setCursor(0, 1);
     lcd.print('x' + ice_ame);
@@ -88,19 +87,21 @@ void loop()
     // 카페라떼 구매 갯수 구함
     lcd.setCursor(0, 0);
     lcd.print("Cafe Latte      ");
-    int latte = bluetooth.read();
-    if (bluetooth.available()) {
-        Serial.write(bluetooth.read());
+    int latte = BT.read();
+    if (BT.available()) {
+        Serial.write(BT.read());
     }
     lcd.setCursor(0, 1);
     lcd.print("x" + latte);
+    delay(2000);
      // 계산
     int ice_ame_prise = ice_ame * 3000;
     int latte_prise = latte * 4000;
     lcd.setCursor(0, 0);
     lcd.print('ice ame:' + ice_ame + '=' + ice_ame_prise);
-    lcd.setCursor(0, 1;);
+    lcd.setCursor(0, 1);
     lcd.print('latte:' + latte + '=' + latte_prise);
+    delay(2000);
     lcd.clear();
   }
   else { // 인증 실패하면...  
@@ -110,7 +111,7 @@ void loop()
     delay(1000);
     lcd.setCursor(0, 0);
     lcd.print('please wait     ');
-    lcd.setCursor(0, 1)
+    lcd.setCursor(0, 1);
     lcd.print('person in charge');
     delay(1000);  // 카드 인증 실패 시 1초 대기
   }
