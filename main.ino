@@ -2,6 +2,7 @@
 #include <LiquidCrystal_I2C.h> // LCD, liquidcrystal_i2c 라이브러리 설치하기
 #include <Wire.h> // LCD
 #include <SoftwareSerial.h> // 블루투스
+#include <Servo.h> // 서보 모터
 
 #define SS_PIN 10
 #define RST_PIN 9
@@ -12,6 +13,15 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 // BlueTooth
 SoftwareSerial BT(2, 3);
+
+// 서보 모터
+int servoPin = 3;
+Servo servo; 
+int angle = 0; // servo position in degrees 
+
+// 아이스아메리카노, 라떼 함수
+int ice_ame = 0;
+int latte = 0;
 
 void setup()
 { // RFID 설정
@@ -27,13 +37,13 @@ void setup()
   
   // BlueTooth 설정
   BT.begin(9600);
+
+  // 서보 모터 설정
+  servo.attach(servoPin); 
 }
 
 void loop()
 {
-  int ice_ame = 0;
-  int latte = 0;
-
   // 새 카드 접촉이 없으면 돌아감
   if ( ! rfid.PICC_IsNewCardPresent()) {
     delay(500);  // 0.5초 대기
@@ -99,8 +109,11 @@ void loop()
     lcd.print(ice_ame_prise);
     lcd.setCursor(0, 1);
     lcd.print(latte_prise);
-    delay(2000);
+    delay(3000);
     lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Door is open.");
+    int angle += 90;
   }
   else { // 인증 실패하면...  
     Serial.println(" Access denied"); // 그외 UID는 승인 거부 표시
