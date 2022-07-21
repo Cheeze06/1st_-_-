@@ -50,6 +50,7 @@ void loop()
   lcd.setCursor(0, 1);
   lcd.print(iceame);
   delay(1000);
+  lcd.clear();
  }
  if (digitalRead(7) == LOW) {
   Serial.println("latte");
@@ -60,6 +61,7 @@ void loop()
   lcd.setCursor(0, 1);
   lcd.print(latte);
   delay(1000);
+  lcd.clear();
  }
 
   // 새 카드 접촉이 없으면 돌아감
