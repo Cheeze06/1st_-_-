@@ -1,0 +1,23 @@
+int iceame = 0;
+int latte = 0;
+
+void setup() {
+  pinMode(6, INPUT_PULLUP);
+  pinMode(7, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (digitalRead(6) == LOW){
+    Serial.println("ame");
+    iceame += 1;
+    delay(500);
+    Serial.println(iceame);
+  }
+ if (digitalRead(7) == LOW){
+  Serial.println("latte");
+  latte += 1;
+  delay(500);
+  Serial.println(latte);
+ }
+}
